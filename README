@@ -1,0 +1,42 @@
+VIRTUAL FILE SYSTEM BASED ON ONE FILE
+
+Core package contains SimpleSimpleFileSystem - simple interface for file system (example of usages are in tests).
+Extended package contains SimpleFileSystemProvider - nio interface for interacting with created file system.
+SimpleFileSystemProvider is not fully implemented and tested (example of usages are Demo class).
+
+===Base structure===
+SimpleHeader - the one, contains main info about whole file system.
+SimpleINode - one for each file or directory, contains main info about file or directory.
+SimpleBlock - one or more for each file or directory, contains data of file or directory.
+
+BaseStructureReadWriter - sync operations for base structure.
+SpaceAllocator - logic for allocating free blocks and nodes.
+
+===Structure upon base===
+SimpleFile - file or directory representation.
+SimpleDirectory - directory representation.
+
+DirectoryParser - methods for parsing byte data into directory format.
+INodeLocker - logic for sync operations on files.
+SimpleFileReadWriter - base operations on files.
+
+===Features===
+1. Files data is not read before invoking readData method.
+2. If file was changed after it was read and before it is written - exception is raised.
+3. Free blocks can be reused.
+
+===Ways to improve===
+1. INodeLocker should restrict access to data blocks by file (iNode).
+2. SpaceAllocator should cache free blocks.
+3. SimpleBlock should be read less (sometimes only fields are required).
+4. Use byte array pool
+5. We need ability to identify block (if it is header, block or iNode) and check it for freedom.
+6. INodes can be cached.
+7. Async input/output
+8. Throw specific exceptions
+9. Write more tests.
+10. ...
+
+===Examples===
+SimpleSimpleFileSystem - SimpleSimpleFileSystemTest
+SimpleFileSystemProvider - Demo
